@@ -15,6 +15,8 @@ import {
 import SendIcon from "@mui/icons-material/Send";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import DescriptionIcon from "@mui/icons-material/Description";
+import AutoStoriesIcon from "@mui/icons-material/AutoStories";
+import SmartToyIcon from "@mui/icons-material/SmartToy";
 import FileUpload from "../components/ui/FileUpload";
 import ChatMessage from "../components/ui/ChatMessage";
 import { uploadDocument, sendMessage } from "../services/docchat.service";
@@ -83,19 +85,63 @@ export default function ChatPage() {
     setFilename("");
     setMessages([]);
     setInput("");
-    setRemaining(10);
+    setRemaining(50);
   };
 
   if (!sessionId) {
     return (
-      <Container maxWidth="sm" sx={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", py: 6 }}>
-        <Typography variant="h4" align="center" sx={{ fontWeight: 700 }} gutterBottom>
-          Chat with any document
-        </Typography>
-        <Typography variant="body1" color="text.secondary" align="center" sx={{ mb: 4 }}>
-          Upload a PDF, text, or markdown file and ask questions about its content.
-        </Typography>
-        <FileUpload onUpload={handleUpload} loading={uploading} />
+      <Box sx={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", position: "relative", overflow: "hidden" }}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "15%",
+            left: "25%",
+            width: 280,
+            height: 280,
+            borderRadius: "50%",
+            bgcolor: "primary.main",
+            opacity: 0.06,
+            filter: "blur(80px)",
+          }}
+        />
+        <Box
+          sx={{
+            position: "absolute",
+            bottom: "20%",
+            right: "20%",
+            width: 220,
+            height: 220,
+            borderRadius: "50%",
+            bgcolor: "primary.main",
+            opacity: 0.04,
+            filter: "blur(60px)",
+          }}
+        />
+        <Container maxWidth="sm" sx={{ position: "relative", zIndex: 1, py: 6 }}>
+          <Stack alignItems="center" sx={{ mb: 3 }}>
+            <Box
+              sx={{
+                width: 56,
+                height: 56,
+                borderRadius: 3,
+                bgcolor: "primary.main",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                mb: 2,
+              }}
+            >
+              <AutoStoriesIcon sx={{ color: "#fff", fontSize: 28 }} />
+            </Box>
+            <Typography variant="h4" align="center" sx={{ fontWeight: 700 }} gutterBottom>
+              Chat with any document
+            </Typography>
+            <Typography variant="body1" color="text.secondary" align="center">
+              Upload a PDF, text, or markdown file and ask questions about its content.
+            </Typography>
+          </Stack>
+          <FileUpload onUpload={handleUpload} loading={uploading} />
+        </Container>
         <Snackbar
           open={!!error}
           autoHideDuration={4000}
@@ -106,7 +152,7 @@ export default function ChatPage() {
             {error}
           </Alert>
         </Snackbar>
-      </Container>
+      </Box>
     );
   }
 
@@ -114,49 +160,85 @@ export default function ChatPage() {
     <Box sx={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
       {/* Header bar */}
       <Stack
-        sx={{ flexDirection: "row", alignItems: "center", gap: 1.5, px: 3, py: 1.5, borderBottom: 1, borderColor: "divider" }}
+        sx={{ flexDirection: "row", alignItems: "center", gap: 1, px: { xs: 2, sm: 3 }, py: 1.5, borderBottom: 1, borderColor: "divider" }}
       >
         <DescriptionIcon color="primary" fontSize="small" />
-        <Typography variant="body2" sx={{ fontWeight: 600, flex: 1 }} noWrap>
+        <Typography variant="body2" sx={{ fontWeight: 600, flex: 1, minWidth: 0 }} noWrap>
           {filename}
         </Typography>
         <Chip
-          label={`${remaining} message${remaining !== 1 ? "s" : ""} left`}
+          label={`${remaining} left`}
           size="small"
           color={remaining <= 3 ? "warning" : "default"}
           variant="outlined"
+          sx={{ flexShrink: 0 }}
         />
         <Button
           size="small"
           startIcon={<RestartAltIcon />}
           onClick={handleReset}
+          sx={{ flexShrink: 0, display: { xs: "none", sm: "inline-flex" } }}
         >
           New Document
         </Button>
+        <IconButton
+          size="small"
+          onClick={handleReset}
+          sx={{ display: { xs: "inline-flex", sm: "none" }, flexShrink: 0 }}
+          aria-label="New document"
+        >
+          <RestartAltIcon fontSize="small" />
+        </IconButton>
       </Stack>
 
       {/* Messages */}
-      <Box sx={{ flex: 1, overflow: "auto", px: 3, py: 2 }}>
+      <Box sx={{ flex: 1, overflow: "auto", px: { xs: 2, sm: 3 }, py: 2 }}>
         <Container maxWidth="md" sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
           {messages.length === 0 && (
-            <Typography
-              variant="body1"
-              color="text.secondary"
-              align="center"
-              sx={{ mt: 8 }}
-            >
-              Ask a question about your document to get started.
-            </Typography>
+            <Stack alignItems="center" sx={{ mt: 8, gap: 1.5 }}>
+              <SmartToyIcon sx={{ fontSize: 40, color: "text.secondary", opacity: 0.5 }} />
+              <Typography variant="body1" color="text.secondary" align="center">
+                Ask a question about your document to get started.
+              </Typography>
+            </Stack>
           )}
           {messages.map((msg, i) => (
             <ChatMessage key={i} message={msg} />
           ))}
           {sending && (
-            <Box sx={{ display: "flex", gap: 1.5, alignItems: "center" }}>
-              <CircularProgress size={20} />
-              <Typography variant="body2" color="text.secondary">
-                Thinking...
-              </Typography>
+            <Box sx={{ display: "flex", gap: 1.5, alignItems: "flex-start" }}>
+              <Box
+                sx={{
+                  width: 36,
+                  height: 36,
+                  borderRadius: "50%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  bgcolor: "action.selected",
+                  color: "primary.main",
+                  flexShrink: 0,
+                }}
+              >
+                <SmartToyIcon fontSize="small" />
+              </Box>
+              <Box
+                sx={{
+                  p: 2,
+                  borderRadius: 3,
+                  bgcolor: "background.paper",
+                  border: 1,
+                  borderColor: "divider",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1.5,
+                }}
+              >
+                <CircularProgress size={16} />
+                <Typography variant="body2" color="text.secondary">
+                  Thinking...
+                </Typography>
+              </Box>
             </Box>
           )}
           <div ref={messagesEndRef} />
@@ -164,9 +246,9 @@ export default function ChatPage() {
       </Box>
 
       {/* Input */}
-      <Box sx={{ px: 3, py: 2, borderTop: 1, borderColor: "divider" }}>
+      <Box sx={{ px: { xs: 2, sm: 3 }, py: 2, borderTop: 1, borderColor: "divider" }}>
         <Container maxWidth="md">
-          <Stack sx={{ flexDirection: "row", gap: 1 }}>
+          <Stack sx={{ flexDirection: "row", gap: 1, alignItems: "flex-end" }}>
             <TextField
               fullWidth
               multiline
@@ -183,7 +265,7 @@ export default function ChatPage() {
               }}
               disabled={remaining <= 0 || sending}
               sx={{
-                "& .MuiOutlinedInput-root": { borderRadius: 6, bgcolor: "background.paper" },
+                "& .MuiOutlinedInput-root": { borderRadius: 3, bgcolor: "background.paper" },
               }}
             />
             <IconButton
@@ -191,13 +273,17 @@ export default function ChatPage() {
               onClick={handleSend}
               disabled={!input.trim() || remaining <= 0 || sending}
               sx={{
+                width: 40,
+                height: 40,
+                flexShrink: 0,
                 bgcolor: "primary.main",
                 color: "white",
+                borderRadius: 2,
                 "&:hover": { bgcolor: "primary.dark" },
                 "&.Mui-disabled": { bgcolor: "action.disabledBackground" },
               }}
             >
-              <SendIcon />
+              <SendIcon fontSize="small" />
             </IconButton>
           </Stack>
         </Container>

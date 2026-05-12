@@ -1,5 +1,5 @@
 import { AppBar, Box, IconButton, Toolbar, Typography } from "@mui/material";
-import DescriptionIcon from "@mui/icons-material/Description";
+import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import { useThemeMode } from "../../contexts/ThemeContext";
@@ -15,12 +15,25 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         sx={{ borderBottom: 1, borderColor: "divider" }}
       >
         <Toolbar variant="dense">
-          <DescriptionIcon sx={{ mr: 1.5 }} />
+          <Box
+            sx={{
+              width: 28,
+              height: 28,
+              borderRadius: 1.5,
+              bgcolor: "rgba(255,255,255,0.15)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              mr: 1.5,
+            }}
+          >
+            <AutoStoriesIcon sx={{ fontSize: 16 }} />
+          </Box>
           <Typography variant="subtitle1" sx={{ fontWeight: 600, flexGrow: 1 }}>
             DocChat
           </Typography>
-          <IconButton color="inherit" onClick={toggle}>
-            {mode === "dark" ? <LightModeIcon /> : <DarkModeIcon />}
+          <IconButton color="inherit" onClick={toggle} aria-label="toggle theme">
+            {mode === "dark" ? <LightModeIcon fontSize="small" /> : <DarkModeIcon fontSize="small" />}
           </IconButton>
         </Toolbar>
       </AppBar>
