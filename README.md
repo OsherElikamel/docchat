@@ -2,6 +2,19 @@
 
 Upload a document and chat with its content using AI. Ask questions, get answers grounded in your document, with relevant quotes and context.
 
+![Upload page](docs/initial_empty_state.png)
+
+<details>
+<summary>More screenshots</summary>
+
+### Asking a Question
+![First question](docs/first_question.png)
+
+### Detailed Follow-Up
+![Second question](docs/second_question_1.png)
+
+</details>
+
 ## How It Works
 
 1. Upload a PDF, TXT, or Markdown file
