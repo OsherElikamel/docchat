@@ -22,7 +22,7 @@ sessions: dict[str, Session] = {}
 
 
 def create_session(doc_id: str) -> Session:
-    session_id = uuid.uuid4().hex[:12]
+    session_id = uuid.uuid4().hex
     session = Session(id=session_id, doc_id=doc_id)
     sessions[session_id] = session
     return session

@@ -24,7 +24,7 @@ export default function ChatMessage({ message }: { message: Message }) {
           alignItems: "center",
           justifyContent: "center",
           bgcolor: isUser ? "primary.main" : "action.selected",
-          color: isUser ? "white" : "primary.main",
+          color: isUser ? "primary.contrastText" : "primary.main",
           flexShrink: 0,
         }}
       >
@@ -37,7 +37,7 @@ export default function ChatMessage({ message }: { message: Message }) {
           maxWidth: "75%",
           borderRadius: 3,
           bgcolor: isUser ? "primary.main" : "background.paper",
-          color: isUser ? "white" : "text.primary",
+          color: isUser ? "primary.contrastText" : "text.primary",
           border: isUser ? 0 : 1,
           borderColor: "divider",
         }}

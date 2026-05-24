@@ -35,7 +35,7 @@ def parse_pdf(file_bytes: bytes) -> str:
 
 
 def store_document(filename: str, chunks: list[str]) -> str:
-    doc_id = uuid.uuid4().hex[:12]
+    doc_id = uuid.uuid4().hex
     documents[doc_id] = Document(id=doc_id, filename=filename, chunks=chunks)
     return doc_id
 

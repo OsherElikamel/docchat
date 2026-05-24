@@ -118,7 +118,7 @@ export default function ChatPage() {
           }}
         />
         <Container maxWidth="sm" sx={{ position: "relative", zIndex: 1, py: 6 }}>
-          <Stack alignItems="center" sx={{ mb: 3 }}>
+          <Stack sx={{ alignItems: "center", mb: 3 }}>
             <Box
               sx={{
                 width: 56,
@@ -131,7 +131,7 @@ export default function ChatPage() {
                 mb: 2,
               }}
             >
-              <AutoStoriesIcon sx={{ color: "#fff", fontSize: 28 }} />
+              <AutoStoriesIcon sx={{ color: "primary.contrastText", fontSize: 28 }} />
             </Box>
             <Typography variant="h4" align="center" sx={{ fontWeight: 700 }} gutterBottom>
               Chat with any document
@@ -195,7 +195,7 @@ export default function ChatPage() {
       <Box sx={{ flex: 1, overflow: "auto", px: { xs: 2, sm: 3 }, py: 2 }}>
         <Container maxWidth="md" sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
           {messages.length === 0 && (
-            <Stack alignItems="center" sx={{ mt: 8, gap: 1.5 }}>
+            <Stack sx={{ alignItems: "center", mt: 8, gap: 1.5 }}>
               <SmartToyIcon sx={{ fontSize: 40, color: "text.secondary", opacity: 0.5 }} />
               <Typography variant="body1" color="text.secondary" align="center">
                 Ask a question about your document to get started.
@@ -277,7 +277,7 @@ export default function ChatPage() {
                 height: 40,
                 flexShrink: 0,
                 bgcolor: "primary.main",
-                color: "white",
+                color: "primary.contrastText",
                 borderRadius: 2,
                 "&:hover": { bgcolor: "primary.dark" },
                 "&.Mui-disabled": { bgcolor: "action.disabledBackground" },

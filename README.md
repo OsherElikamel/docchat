@@ -23,6 +23,8 @@ Upload a document and chat with its content using AI. Ask questions, get answers
 4. Each question retrieves the most relevant chunks and sends them to Groq for a grounded answer
 5. Sessions are capped at 50 messages to manage API usage
 
+All documents and sessions are stored in-memory — data resets when the server restarts. This keeps the stack simple (no database required).
+
 ## Tech Stack
 
 | Layer | Technology |
