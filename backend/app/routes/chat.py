@@ -29,7 +29,10 @@ def chat(req: ChatRequest):
     if not req.question.strip():
         raise HTTPException(400, "Question cannot be empty")
 
-    answer = get_response(session, document, req.question)
+    try:
+        answer = get_response(session, document, req.question)
+    except Exception:
+        raise HTTPException(502, "Failed to get a response from the AI model. Please try again")
 
     return {
         "answer": answer,

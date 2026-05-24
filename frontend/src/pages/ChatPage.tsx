@@ -27,7 +27,7 @@ export default function ChatPage() {
   const [filename, setFilename] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
-  const [remaining, setRemaining] = useState(50);
+  const [remaining, setRemaining] = useState(0);
   const [uploading, setUploading] = useState(false);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState("");
@@ -47,9 +47,10 @@ export default function ChatPage() {
       setRemaining(data.remaining_messages);
       setMessages([]);
     } catch (err: unknown) {
-      const msg =
-        err instanceof Error ? err.message : "Upload failed";
-      setError(msg);
+      const detail =
+        (err as { response?: { data?: { detail?: string } } })?.response?.data?.detail ||
+        (err instanceof Error ? err.message : "Upload failed");
+      setError(detail);
     } finally {
       setUploading(false);
     }
@@ -85,7 +86,7 @@ export default function ChatPage() {
     setFilename("");
     setMessages([]);
     setInput("");
-    setRemaining(50);
+    setRemaining(0);
   };
 
   if (!sessionId) {
@@ -269,6 +270,7 @@ export default function ChatPage() {
               }}
             />
             <IconButton
+              aria-label="Send message"
               color="primary"
               onClick={handleSend}
               disabled={!input.trim() || remaining <= 0 || sending}

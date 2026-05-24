@@ -9,11 +9,17 @@ interface FileUploadProps {
 
 export default function FileUpload({ onUpload, loading }: FileUploadProps) {
   const [dragOver, setDragOver] = useState(false);
+  const [rejected, setRejected] = useState(false);
 
   const handleFile = useCallback(
     (file: File) => {
       const ext = file.name.toLowerCase();
-      if (!ext.endsWith(".pdf") && !ext.endsWith(".txt") && !ext.endsWith(".md")) return;
+      if (!ext.endsWith(".pdf") && !ext.endsWith(".txt") && !ext.endsWith(".md")) {
+        setRejected(true);
+        setTimeout(() => setRejected(false), 3000);
+        return;
+      }
+      setRejected(false);
       onUpload(file);
     },
     [onUpload],
@@ -29,24 +35,35 @@ export default function FileUpload({ onUpload, loading }: FileUploadProps) {
     [handleFile],
   );
 
+  const openFilePicker = useCallback(() => {
+    if (loading) return;
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = ".pdf,.txt,.md";
+    input.onchange = () => {
+      const file = input.files?.[0];
+      if (file) handleFile(file);
+    };
+    input.click();
+  }, [loading, handleFile]);
+
   return (
     <Box
+      role="button"
+      tabIndex={0}
+      aria-label="Upload a document"
       onDragOver={(e) => {
         e.preventDefault();
         setDragOver(true);
       }}
       onDragLeave={() => setDragOver(false)}
       onDrop={handleDrop}
-      onClick={() => {
-        if (loading) return;
-        const input = document.createElement("input");
-        input.type = "file";
-        input.accept = ".pdf,.txt,.md";
-        input.onchange = () => {
-          const file = input.files?.[0];
-          if (file) handleFile(file);
-        };
-        input.click();
+      onClick={openFilePicker}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          openFilePicker();
+        }
       }}
       sx={{
         border: 2,
@@ -72,6 +89,11 @@ export default function FileUpload({ onUpload, loading }: FileUploadProps) {
           <Typography variant="body2" color="text.secondary">
             Supports PDF, TXT, and Markdown files (max 10MB)
           </Typography>
+          {rejected && (
+            <Typography variant="body2" color="error" sx={{ mt: 1 }}>
+              Unsupported file type. Please upload a PDF, TXT, or Markdown file.
+            </Typography>
+          )}
         </>
       )}
     </Box>

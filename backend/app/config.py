@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     groq_model: str = "llama-3.3-70b-versatile"
     chunk_size: int = 1000
     chunk_overlap: int = 200
+    session_ttl_minutes: int = 60
 
     class Config:
         env_file = ".env"
