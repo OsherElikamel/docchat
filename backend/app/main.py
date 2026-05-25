@@ -18,7 +18,7 @@ app = FastAPI(title="DocChat API")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[settings.allowed_origin],
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "OPTIONS"],
     allow_headers=["*"],
 )
 

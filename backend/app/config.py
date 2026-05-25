@@ -2,7 +2,7 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
-    groq_api_key: str = ""
+    groq_api_key: str
     allowed_origin: str = "http://localhost:5173"
     max_messages_per_session: int = 50
     max_upload_size_mb: int = 10
