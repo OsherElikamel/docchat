@@ -10,6 +10,7 @@ interface ThemeCtx {
 
 const Ctx = createContext<ThemeCtx>({ mode: "light", toggle: () => {} });
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useThemeMode = () => useContext(Ctx);
 
 export default function ThemeProvider({ children }: { children: ReactNode }) {
