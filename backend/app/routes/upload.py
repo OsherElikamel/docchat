@@ -1,8 +1,11 @@
 import io
+import logging
 
 from fastapi import APIRouter, HTTPException, UploadFile
 
 from app.config import settings
+
+logger = logging.getLogger("docchat")
 from app.services.document import chunk_text, parse_pdf, store_document
 from app.services.session import create_session
 
@@ -25,6 +28,7 @@ async def upload_document(file: UploadFile):
         try:
             text = parse_pdf(io.BytesIO(content))
         except Exception:
+            logger.exception("PDF parse failed for %s", file.filename)
             raise HTTPException(400, "Could not parse PDF")
     elif filename_lower.endswith(".txt") or filename_lower.endswith(".md"):
         text = content.decode("utf-8", errors="replace")
